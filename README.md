@@ -83,7 +83,14 @@ npm run preview
 ### EmailJS (Contact Form)
 
 1. Create a free account at [emailjs.com](https://www.emailjs.com/)
-2. Create a `.env` file in the project root:
+2. Add an Email Service (Gmail) → note the **Service ID**
+3. Create an Email Template with these variables:
+   - `{{name}}` — sender's name
+   - `{{email}}` — sender's email (set as Reply-To)
+   - `{{subject}}` — message subject
+   - `{{message}}` — message body
+4. Copy your **Template ID** and **Public Key** (Account → General)
+5. Create a `.env` file in the project root:
 
 ```env
 VITE_EMAILJS_SERVICE_ID=your_service_id
@@ -91,7 +98,8 @@ VITE_EMAILJS_TEMPLATE_ID=your_template_id
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
-3. Wire the env variables into `src/sections/Contact.tsx` inside the `onSubmit` handler.
+6. For GitHub Pages deployment, add the same three values as **repository secrets** at:  
+   `github.com/<your-username>/portfolio/settings/secrets/actions`
 
 ### Personal Data
 
@@ -123,32 +131,23 @@ src/
 
 ## Deployment
 
-### GitHub Pages
+### GitHub Pages (GitHub Actions — configured)
 
-Install the deploy helper:
+Deployment is fully automated via `.github/workflows/deploy.yml`. Every push to `main` triggers a build and deploy.
 
-```bash
-npm install --save-dev gh-pages
-```
-
-Add to `package.json` scripts:
-
-```json
-"deploy": "npm run build && gh-pages -d dist"
-```
-
-Deploy:
-
-```bash
-npm run deploy
-```
+**One-time setup:**
+1. Go to `Settings → Pages` → set Source to **GitHub Actions**
+2. Add these repository secrets at `Settings → Secrets → Actions`:
+   - `VITE_EMAILJS_SERVICE_ID`
+   - `VITE_EMAILJS_TEMPLATE_ID`
+   - `VITE_EMAILJS_PUBLIC_KEY`
 
 > `base: '/portfolio/'` in `vite.config.ts` is already configured for GitHub Pages.  
 > Change it to `'/'` if using a custom root domain (e.g. `mohamedzouari.dev`).
 
 ### Vercel / Netlify
 
-Just connect the repo — both platforms detect Vite automatically. Set the output directory to `dist`.
+Connect the repo — both platforms detect Vite automatically. Set the output directory to `dist`. Add the three `VITE_EMAILJS_*` environment variables in the platform dashboard.
 
 ---
 
