@@ -527,6 +527,19 @@ export const certifications = [
   },
 ];
 
+export const publications = [
+  {
+    title: "Leveraging Artificial Intelligence for Adaptive Battery Optimization in Smartphones",
+    venue: "2025 IEEE International Conference on Advances in Data-Driven Analytics And Intelligent Systems (ADACIS)",
+    date: "March 2026",
+    authors: ["Mohamed Zouari", "Omar Jaoua"],
+    link: "https://ieeexplore.ieee.org/document/11437179",
+    doi: "10.1109/ADACIS",
+    color: "#00D9FF",
+    tags: ["AI", "Battery Optimization", "Smartphones", "Machine Learning"],
+  },
+];
+
 export const exploring = [
   { topic: "Agentic AI", icon: "🤖", color: "#00D9FF" },
   { topic: "Multi-Agent Systems", icon: "🕸️", color: "#7C3AED" },

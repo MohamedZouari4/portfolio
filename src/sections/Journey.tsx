@@ -59,6 +59,13 @@ const milestones = [
     color: "#00D9FF",
   },
   {
+    year: "Mar 2026",
+    icon: "📄",
+    title: "First IEEE Research Paper Published",
+    desc: "Co-authored and published research on AI-driven adaptive battery optimization in smartphones at IEEE ADACIS 2025.",
+    color: "#7C3AED",
+  },
+  {
     year: "Now",
     icon: "⚡",
     title: "What's Next",

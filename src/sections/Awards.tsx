@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink, ExternalLink as ExtLink, X, BookOpen, Users } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
-import { awards, certifications, exploring } from "../data";
+import { awards, certifications, exploring, publications } from "../data";
 
 type Cert = (typeof certifications)[number];
 
@@ -199,6 +199,70 @@ export default function AwardsSection() {
                   <CertModal cert={cert} onClose={() => setSelectedCert(null)} />
                 )}
               </Dialog.Root>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Publications */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-20"
+        >
+          <h3 className="font-display font-bold text-2xl text-white text-center mb-3">
+            Research &amp; Publications
+          </h3>
+          <p className="text-[#A1A1AA] text-center mb-8">
+            Peer-reviewed work published in IEEE conferences and journals
+          </p>
+          <div className="max-w-3xl mx-auto space-y-4">
+            {publications.map((pub, i) => (
+              <motion.a
+                key={i}
+                href={pub.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ x: 6 }}
+                className="flex gap-5 glass rounded-2xl p-6 border border-white/5 hover:border-[#00D9FF]/30 group transition-colors duration-300"
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                  style={{ background: pub.color + "15", border: `1px solid ${pub.color}30` }}
+                >
+                  <BookOpen size={20} style={{ color: pub.color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <h4 className="font-semibold text-white text-sm leading-snug group-hover:text-[#00D9FF] transition-colors">
+                      {pub.title}
+                    </h4>
+                    <ExtLink size={14} className="text-[#A1A1AA] flex-shrink-0 opacity-0 group-hover:opacity-60 transition-opacity mt-0.5" />
+                  </div>
+                  <p className="text-[#A1A1AA] text-xs mb-3 italic">{pub.venue}</p>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="flex items-center gap-1.5 text-xs text-[#A1A1AA]">
+                      <Users size={11} />
+                      {pub.authors.join(" · ")}
+                    </span>
+                    <span
+                      className="px-2 py-0.5 rounded-full text-xs font-mono font-bold"
+                      style={{ background: pub.color + "20", color: pub.color, border: `1px solid ${pub.color}30` }}
+                    >
+                      {pub.date}
+                    </span>
+                    {pub.tags.map((tag, t) => (
+                      <span key={t} className="px-2 py-0.5 rounded-full text-xs bg-white/5 text-[#A1A1AA] border border-white/10">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.a>
             ))}
           </div>
         </motion.div>
