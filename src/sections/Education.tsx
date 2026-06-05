@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { GraduationCap, MapPin, Calendar, CheckCircle, Clock, Award } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { education, certifications } from "../data";
+import lyceelogo from "../assets/logo lycee 15 novembre.jpg";
+import iitLogo from "../assets/IIT (2).png";
 
 export default function EducationSection() {
   return (
@@ -36,13 +38,27 @@ export default function EducationSection() {
                 {/* Timeline dot */}
                 <div className="hidden md:flex flex-col items-center">
                   <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border"
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border overflow-hidden"
                     style={{
                       background: edu.color + "15",
                       borderColor: edu.color + "30",
                     }}
                   >
-                    <GraduationCap size={26} style={{ color: edu.color }} />
+                    {edu.id === 2 ? (
+                      <img
+                        src={lyceelogo}
+                        alt="Lycée November 1955"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : edu.id === 1 ? (
+                      <img
+                        src={iitLogo}
+                        alt="IIT"
+                        className="w-full h-full object-contain p-1 bg-white rounded-xl"
+                      />
+                    ) : (
+                      <GraduationCap size={26} style={{ color: edu.color }} />
+                    )}
                   </div>
                 </div>
 

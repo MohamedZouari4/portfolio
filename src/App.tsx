@@ -20,9 +20,9 @@ import SectionDots from "./components/SectionDots";
 import HireMe from "./components/HireMe";
 import CursorSpotlight from "./components/CursorSpotlight";
 import TopProgressBar from "./components/TopProgressBar";
-import NowPlaying from "./components/NowPlaying";
 import HeroBackground from "./components/HeroBackground";
 import NotFound from "./sections/NotFound";
+import StatsBanner from "./components/StatsBanner";
 
 function HashScroller() {
   const location = useLocation();
@@ -49,6 +49,7 @@ function PortfolioPage() {
   return (
     <main className="relative z-10">
       <HeroSection />
+      <StatsBanner />
       <AboutSection />
       <JourneySection />
       <EducationSection />
@@ -93,7 +94,6 @@ function App() {
           <Footer />
           <BackToTop />
           <HireMe />
-          <NowPlaying />
           <SectionDots />
         </div>
       </LangProvider>

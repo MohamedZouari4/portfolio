@@ -3,42 +3,52 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, CalendarDays } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { experience } from "../data";
+import advisingLogo from "../assets/favicon.png";
+import clinisysLogo from "../assets/clinisys.jpg";
+import iitLogo from "../assets/IIT (2).png";
 
-// Clearbit logo API for known companies; fallback to initials avatar
+// Local logos take priority; Clearbit as fallback for others
 const companyLogoMap: Record<string, string> = {
-  "ADVISING LTD": "https://logo.clearbit.com/advising.co",
-  "CliniSys ERP": "https://logo.clearbit.com/clinisys.com",
-  "International Institute of Technology": "https://logo.clearbit.com/iit.tn",
+  "ADVISING LTD": advisingLogo,
+  "CliniSys ERP": clinisysLogo,
+  "International Institute of Technology": iitLogo,
 };
 
-function CompanyLogo({ company }: { company: string; color: string }) {
+function CompanyLogo({ company, color }: { company: string; color: string }) {
   const src = companyLogoMap[company];
-  if (src) {
+  const isLocal = src && !src.startsWith("http");
+  const initials = company.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
+
+  if (!src) {
     return (
+      <div
+        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold"
+        style={{ background: color + "20", color }}
+      >
+        {initials}
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative flex-shrink-0">
       <img
         src={src}
         alt={company}
-        className="w-8 h-8 rounded-lg object-contain bg-white/5 p-0.5"
+        className={`w-8 h-8 rounded-lg object-contain p-0.5 ${isLocal ? "bg-white" : "bg-white/5"}`}
         onError={(e) => {
           const t = e.currentTarget;
           t.style.display = "none";
           const next = t.nextElementSibling as HTMLElement | null;
-          if (next) next.style.display = "flex";
+          if (next) next.style.removeProperty("display");
         }}
       />
-    );
-  }
-  return null;
-}
-
-function CompanyInitials({ company, color }: { company: string; color: string }) {
-  const initials = company.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
-  return (
-    <div
-      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold"
-      style={{ background: color + "20", color }}
-    >
-      {initials}
+      <div
+        className="w-8 h-8 rounded-lg items-center justify-center flex-shrink-0 text-xs font-bold hidden"
+        style={{ background: color + "20", color }}
+      >
+        {initials}
+      </div>
     </div>
   );
 }
@@ -107,7 +117,6 @@ export default function ExperienceSection() {
                         <div className="flex items-center gap-3 mb-1 flex-wrap">
                           <div className="relative flex-shrink-0">
                             <CompanyLogo company={exp.company} color={exp.color} />
-                            <CompanyInitials company={exp.company} color={exp.color} />
                           </div>
                           <h3 className="font-display font-bold text-white text-lg">
                             {exp.role}

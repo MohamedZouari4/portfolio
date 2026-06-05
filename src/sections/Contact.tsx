@@ -9,11 +9,9 @@ import { GitHubIcon, LinkedInIcon } from "../components/SocialIcons";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { personal } from "../data";
 
-// ── EmailJS config ── replace these with your real IDs from emailjs.com ──────
-const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
-// ─────────────────────────────────────────────────────────────────────────────
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string;
 
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -42,8 +40,8 @@ export default function ContactSection() {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name: data.name,
-          from_email: data.email,
+          name: data.name,
+          email: data.email,
           subject: data.subject,
           message: data.message,
         },
@@ -52,7 +50,9 @@ export default function ContactSection() {
       setStatus("sent");
       reset();
       setTimeout(() => setStatus("idle"), 5000);
-    } catch {
+    } catch (err: unknown) {
+      const e = err as { status?: number; text?: string; message?: string };
+      console.error("EmailJS error — status:", e?.status, "text:", e?.text, "message:", e?.message);
       setStatus("error");
       setTimeout(() => setStatus("idle"), 4000);
     }

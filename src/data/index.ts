@@ -362,7 +362,7 @@ export const ieeeRoles = {
     },
     {
       role: "Mentor",
-      org: "IEEE CS IIT SBC",
+      org: "IEEE Computer Society IIT Student Branch Chapter",
       period: "2026 – Present",
       description: "Guiding student volunteers and future IEEE leaders.",
       color: "#00FFB2",
