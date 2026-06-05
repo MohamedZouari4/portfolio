@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LangProvider } from "./lib/LangContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -21,6 +22,47 @@ import CursorSpotlight from "./components/CursorSpotlight";
 import TopProgressBar from "./components/TopProgressBar";
 import NowPlaying from "./components/NowPlaying";
 import HeroBackground from "./components/HeroBackground";
+import NotFound from "./sections/NotFound";
+
+function HashScroller() {
+  const location = useLocation();
+  useEffect(() => {
+    const hash = location.hash;
+    if (!hash) return;
+    // Wait for sections to render then scroll
+    const id = hash.slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Retry once after sections paint
+      const t = setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+      return () => clearTimeout(t);
+    }
+  }, [location.hash]);
+  return null;
+}
+
+function PortfolioPage() {
+  return (
+    <main className="relative z-10">
+      <HeroSection />
+      <AboutSection />
+      <JourneySection />
+      <EducationSection />
+      <ExperienceSection />
+      <ProjectsSection />
+      <SkillsSection />
+      <IeeeSection />
+      <AwardsSection />
+      <TestimonialsSection />
+      <UsesSection />
+      <ContactSection />
+    </main>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -28,41 +70,34 @@ function App() {
   }, []);
 
   return (
-    <LangProvider>
-      <div className="min-h-screen bg-[#0A0A0A] text-white font-body">
-        <TopProgressBar />
-        <CursorSpotlight />
-        <div className="scan-line" />
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <LangProvider>
+        <div className="min-h-screen bg-[#0A0A0A] text-white font-body">
+          <TopProgressBar />
+          <CursorSpotlight />
+          <div className="scan-line" />
 
-        {/* Global particle background — fixed behind entire page */}
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <HeroBackground />
+          {/* Global particle background — fixed behind entire page */}
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <HeroBackground />
+          </div>
+
+          <HashScroller />
+          <Navbar />
+
+          <Routes>
+            <Route path="/" element={<PortfolioPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+
+          <Footer />
+          <BackToTop />
+          <HireMe />
+          <NowPlaying />
+          <SectionDots />
         </div>
-
-        <Navbar />
-
-        <main className="relative z-10">
-          <HeroSection />
-          <AboutSection />
-          <JourneySection />
-          <EducationSection />
-          <ExperienceSection />
-          <ProjectsSection />
-          <SkillsSection />
-          <IeeeSection />
-          <AwardsSection />
-          <TestimonialsSection />
-          <UsesSection />
-          <ContactSection />
-        </main>
-
-        <Footer />
-        <BackToTop />
-        <HireMe />
-        <NowPlaying />
-        <SectionDots />
-      </div>
-    </LangProvider>
+      </LangProvider>
+    </BrowserRouter>
   );
 }
 

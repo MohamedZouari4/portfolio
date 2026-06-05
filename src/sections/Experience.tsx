@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Briefcase, ChevronDown, CalendarDays } from "lucide-react";
+import { ChevronDown, CalendarDays } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { experience } from "../data";
 
@@ -11,7 +11,7 @@ const companyLogoMap: Record<string, string> = {
   "International Institute of Technology": "https://logo.clearbit.com/iit.tn",
 };
 
-function CompanyLogo({ company, color }: { company: string; color: string }) {
+function CompanyLogo({ company }: { company: string; color: string }) {
   const src = companyLogoMap[company];
   if (src) {
     return (

@@ -510,12 +510,20 @@ export const certifications = [
     issuer: "IBM",
     icon: "🐍",
     color: "#00D9FF",
+    year: "2024",
+    link: "https://www.credly.com/org/ibm/badge/python-for-data-science-and-ai",
+    description:
+      "Covers Python fundamentals, data manipulation with Pandas & NumPy, data visualization, and introductory AI concepts via IBM's professional certificate track.",
   },
   {
     name: "Scrum Fundamentals Certified",
     issuer: "SCRUMstudy",
     icon: "⚡",
     color: "#7C3AED",
+    year: "2024",
+    link: "https://www.scrumstudy.com/certification/scrum-fundamentals-certified",
+    description:
+      "Validates foundational understanding of Scrum framework — sprints, ceremonies, roles (Scrum Master, Product Owner, Development Team), and agile project delivery.",
   },
 ];
 

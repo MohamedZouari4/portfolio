@@ -4,6 +4,7 @@ import { GitHubIcon, LinkedInIcon } from "../components/SocialIcons";
 import TypingEffect from "../components/TypingEffect";
 import { personal } from "../data";
 import heroImage from "../assets/hero.png";
+import cvFile from "../assets/Mohamed_ZOUARI_CV_.pdf";
 
 const techStack = ["Python", "FastAPI", "React", "TypeScript", "Docker", "LLMs", "RAG", "PostgreSQL"];
 
@@ -121,7 +122,8 @@ export default function HeroSection() {
               className="flex flex-wrap gap-3 mb-10"
             >
               <a
-                href="/cv.pdf"
+                href={cvFile}
+                download="Mohamed_Zouari_CV.pdf"
                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-[#0A0A0A] bg-[#00D9FF] hover:bg-white transition-all duration-200 hover:shadow-xl hover:shadow-[#00D9FF]/25 hover:-translate-y-0.5 text-sm"
               >
                 <Download size={16} />

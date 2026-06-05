@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
+import cvFile from "../assets/Mohamed_ZOUARI_CV_.pdf";
 import { useScrollProgress, useActiveSection } from "../hooks/useCounter";
 import { cn } from "../lib/utils";
 import { useLang, Lang } from "../lib/LangContext";
@@ -132,9 +133,11 @@ export default function Navbar() {
             </div>
 
             <a
-              href="/cv.pdf"
+              href={cvFile}
+              download="Mohamed_Zouari_CV.pdf"
               className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold border border-[#00D9FF]/40 text-[#00D9FF] hover:bg-[#00D9FF] hover:text-[#0A0A0A] transition-all duration-200"
             >
+              <Download size={14} />
               Resume
             </a>
           </div>
@@ -179,9 +182,11 @@ export default function Navbar() {
                 </motion.button>
               ))}
               <a
-                href="/cv.pdf"
-                className="mt-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#00D9FF] border border-[#00D9FF]/30 hover:bg-[#00D9FF]/10 transition-all duration-200 text-center"
+                href={cvFile}
+                download="Mohamed_Zouari_CV.pdf"
+                className="mt-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#00D9FF] border border-[#00D9FF]/30 hover:bg-[#00D9FF]/10 transition-all duration-200 text-center flex items-center justify-center gap-2"
               >
+                <Download size={14} />
                 Resume
               </a>
             </div>

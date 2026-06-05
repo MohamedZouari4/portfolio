@@ -1,8 +1,88 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { ExternalLink, X } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { awards, certifications, exploring } from "../data";
 
+type Cert = (typeof certifications)[number];
+
+function CertModal({ cert, onClose }: { cert: Cert; onClose: () => void }) {
+  return (
+    <Dialog.Portal>
+      <Dialog.Overlay
+        className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <Dialog.Content className="fixed inset-0 z-[201] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 20 }}
+          transition={{ duration: 0.25 }}
+          className="relative w-full max-w-md glass rounded-2xl border border-white/10 p-8 shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close */}
+          <Dialog.Close asChild>
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-white/30 transition-colors"
+              aria-label="Close"
+            >
+              <X size={15} />
+            </button>
+          </Dialog.Close>
+
+          {/* Icon */}
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center text-4xl mb-5"
+            style={{ background: cert.color + "15", border: `1px solid ${cert.color}30` }}
+          >
+            {cert.icon}
+          </div>
+
+          {/* Badge */}
+          <span
+            className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-bold mb-3"
+            style={{ background: cert.color + "20", color: cert.color, border: `1px solid ${cert.color}30` }}
+          >
+            {cert.year}
+          </span>
+
+          <Dialog.Title className="font-display font-bold text-xl text-white mb-1">
+            {cert.name}
+          </Dialog.Title>
+          <p className="text-[#A1A1AA] text-sm font-semibold mb-4">
+            Issued by {cert.issuer}
+          </p>
+          <p className="text-[#A1A1AA] text-sm leading-relaxed mb-6">
+            {cert.description}
+          </p>
+
+          <a
+            href={cert.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
+            style={{
+              background: cert.color + "15",
+              border: `1px solid ${cert.color}30`,
+              color: cert.color,
+            }}
+          >
+            <ExternalLink size={15} />
+            Verify Certificate
+          </a>
+        </motion.div>
+      </Dialog.Content>
+    </Dialog.Portal>
+  );
+}
+
 export default function AwardsSection() {
+  const [selectedCert, setSelectedCert] = useState<Cert | null>(null);
+
   return (
     <SectionWrapper id="awards" className="bg-[#080808]/80">
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#7C3AED]/4 rounded-full blur-[120px] pointer-events-none" />
@@ -88,29 +168,37 @@ export default function AwardsSection() {
           </h3>
           <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             {certifications.map((cert, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.03, y: -3 }}
-                className="glass rounded-2xl p-5 border border-white/5 flex items-center gap-4 group"
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-                  style={{
-                    background: cert.color + "15",
-                    border: `1px solid ${cert.color}25`,
-                  }}
-                >
-                  {cert.icon}
-                </div>
-                <div>
-                  <p className="font-semibold text-white text-sm">{cert.name}</p>
-                  <p className="text-[#A1A1AA] text-xs mt-0.5">{cert.issuer}</p>
-                </div>
-              </motion.div>
+              <Dialog.Root key={i} open={selectedCert === cert} onOpenChange={(open) => !open && setSelectedCert(null)}>
+                <Dialog.Trigger asChild>
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ scale: 1.03, y: -3 }}
+                    onClick={() => setSelectedCert(cert)}
+                    className="glass rounded-2xl p-5 border border-white/5 hover:border-white/15 flex items-center gap-4 group text-left w-full transition-colors duration-200 cursor-pointer"
+                  >
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                      style={{
+                        background: cert.color + "15",
+                        border: `1px solid ${cert.color}25`,
+                      }}
+                    >
+                      {cert.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-white text-sm">{cert.name}</p>
+                      <p className="text-[#A1A1AA] text-xs mt-0.5">{cert.issuer}</p>
+                    </div>
+                    <ExternalLink size={13} className="text-[#A1A1AA] opacity-0 group-hover:opacity-60 flex-shrink-0 transition-opacity" />
+                  </motion.button>
+                </Dialog.Trigger>
+                {selectedCert === cert && (
+                  <CertModal cert={cert} onClose={() => setSelectedCert(null)} />
+                )}
+              </Dialog.Root>
             ))}
           </div>
         </motion.div>

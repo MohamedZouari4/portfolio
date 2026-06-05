@@ -146,7 +146,7 @@ export default function EducationSection() {
           <div className="grid sm:grid-cols-2 gap-4">
             {certifications.map((cert, i) => (
               <motion.div
-                key={cert.title}
+                key={cert.name}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

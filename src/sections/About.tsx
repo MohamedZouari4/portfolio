@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Brain, Code2, Cloud, Cpu, Users, Globe } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import AnimatedCounter from "../components/AnimatedCounter";
+import GitHubStats from "../components/GitHubStats";
 import { personal, stats, languages, softSkills } from "../data";
 
 const interests = [
@@ -172,20 +173,7 @@ export default function AboutSection() {
               <p className="text-[#A1A1AA] text-xs font-mono uppercase tracking-widest mb-4">
                 GitHub Activity
               </p>
-              <div className="flex flex-col gap-3">
-                <img
-                  src="https://github-readme-stats.vercel.app/api?username=MohamedZouari4&show_icons=true&theme=transparent&hide_border=true&title_color=00D9FF&icon_color=7C3AED&text_color=A1A1AA&bg_color=00000000"
-                  alt="GitHub stats"
-                  className="w-full rounded-xl"
-                  loading="lazy"
-                />
-                <img
-                  src="https://github-readme-stats.vercel.app/api/top-langs/?username=MohamedZouari4&layout=compact&theme=transparent&hide_border=true&title_color=00D9FF&text_color=A1A1AA&bg_color=00000000"
-                  alt="Top languages"
-                  className="w-full rounded-xl"
-                  loading="lazy"
-                />
-              </div>
+              <GitHubStats />
             </motion.div>
           </motion.div>
         </div>
