@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { GraduationCap, MapPin, Calendar, CheckCircle, Clock, Award } from "lucide-react";
+import { GraduationCap, MapPin, Calendar, CheckCircle, Clock } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
-import { education, certifications } from "../data";
+import { education } from "../data";
 import lyceelogo from "../assets/logo lycee 15 novembre.jpg";
 import iitLogo from "../assets/IIT (2).png";
 
@@ -147,49 +147,7 @@ export default function EducationSection() {
           </div>
         </div>
 
-        {/* Certifications */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Award size={20} className="text-[#00D9FF]" />
-            <h3 className="font-display font-bold text-2xl text-white">Certifications</h3>
-          </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            {certifications.map((cert, i) => (
-              <motion.div
-                key={cert.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-4 p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group"
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-                  style={{ background: cert.color + "15", border: `1px solid ${cert.color}25` }}
-                >
-                  {cert.icon}
-                </div>
-                <div>
-                  <p className="font-semibold text-white text-sm group-hover:text-[#00D9FF] transition-colors duration-200">
-                    {cert.name}
-                  </p>
-                  <p className="text-[#666] text-xs mt-0.5">{cert.issuer}</p>
-                </div>
-                <CheckCircle
-                  size={16}
-                  className="ml-auto flex-shrink-0"
-                  style={{ color: cert.color }}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </SectionWrapper>
   );
