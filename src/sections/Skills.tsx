@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { skills } from "../data";
+import { useLang } from "../lib/LangContext";
 
-// Map skill names → devicon slug (only where icons exist)
 const deviconMap: Record<string, string> = {
   "Python": "python",
   "Java": "java",
@@ -28,195 +27,160 @@ const deviconMap: Record<string, string> = {
   "Linux": "linux",
   "Git / GitHub": "github",
   "Tailwind CSS": "tailwindcss",
+  "SQL": "postgresql",
 };
 
-function DeviconImg({ name, color }: { name: string; color: string }) {
+const tabLabels: Record<string, string> = {
+  "All": "All",
+  "Programming Languages": "Languages",
+  "Frontend": "Frontend",
+  "Backend": "Backend",
+  "AI & Machine Learning": "AI / ML",
+  "Databases": "Databases",
+  "Cloud & DevOps": "DevOps",
+};
+
+const tabIcons: Record<string, string> = {
+  "All": "✦",
+  "Programming Languages": "⌨️",
+  "Frontend": "🎨",
+  "Backend": "⚙️",
+  "AI & Machine Learning": "🤖",
+  "Databases": "🗄️",
+  "Cloud & DevOps": "☁️",
+};
+
+function SkillIcon({ name, color }: { name: string; color: string }) {
   const slug = deviconMap[name];
-  if (!slug) return <span className="w-4 h-4 rounded-sm flex-shrink-0" style={{ background: color + "40" }} />;
+  if (!slug) {
+    return (
+      <span
+        className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center text-[10px] font-bold"
+        style={{ background: color + "25", color }}
+      >
+        {name[0]}
+      </span>
+    );
+  }
   return (
     <img
       src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${slug}/${slug}-original.svg`}
       alt={name}
-      className="w-4 h-4 flex-shrink-0 object-contain"
-      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      className="w-5 h-5 flex-shrink-0 object-contain"
+      onError={(e) => {
+        const el = e.target as HTMLImageElement;
+        el.style.display = "none";
+        el.parentElement?.querySelector(".fallback")?.classList.remove("hidden");
+      }}
     />
   );
 }
 
-function SkillBar({ name, level, color, index }: {
-  name: string;
-  level: number;
-  color: string;
-  index: number;
-}) {
-  const [animated, setAnimated] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setAnimated(true); },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} className="group">
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="flex items-center gap-2 text-sm font-medium text-white/90 group-hover:text-white transition-colors">
-          <DeviconImg name={name} color={color} />
-          {name}
-        </span>
-        <span className="text-xs font-mono font-semibold" style={{ color }}>
-          {level}%
-        </span>
-      </div>
-      <div className="skill-bar">
-        <motion.div
-          className="skill-fill"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: animated ? level / 100 : 0 }}
-          transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
-          style={{
-            background: `linear-gradient(90deg, ${color}, ${color}88)`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
 export default function SkillsSection() {
-  const [query, setQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { t } = useLang();
+  const [active, setActive] = useState("All");
 
   const categories = ["All", ...Object.keys(skills)];
 
-  const filteredSkills = Object.entries(skills).filter(([cat]) =>
-    activeCategory === "All" || cat === activeCategory
+  type SkillItem = { name: string; level: number; color: string; category: string };
+
+  const allSkills: SkillItem[] = Object.entries(skills).flatMap(([cat, { color, items }]) =>
+    items.map((item) => ({ ...item, color, category: cat }))
   );
+
+  const displayed: SkillItem[] =
+    active === "All"
+      ? allSkills
+      : (skills[active as keyof typeof skills]?.items ?? []).map((item) => ({
+          ...item,
+          color: skills[active as keyof typeof skills].color,
+          category: active,
+        }));
+
+  const activeColor = active === "All" ? "#00D9FF" : skills[active as keyof typeof skills]?.color ?? "#00D9FF";
 
   return (
     <SectionWrapper id="skills" className="bg-[#080808]/80">
       <div className="absolute top-0 left-0 w-96 h-96 bg-[#7C3AED]/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto">
-        <SectionTitle badge="Skills" subtitle="A comprehensive tech stack spanning AI, frontend, backend, and cloud">
-          Technical Expertise
+      <div className="max-w-5xl mx-auto">
+        <SectionTitle badge="Skills" subtitle={t("skills.subtitle")}>
+          {t("skills.title")}
         </SectionTitle>
 
-        {/* Search */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-10">
-          <div className="relative flex-1 max-w-xs">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A1A1AA]" />
-            <input
-              type="text"
-              placeholder="Search skills..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl glass border border-white/10 text-sm text-white placeholder:text-[#A1A1AA] bg-transparent focus:outline-none focus:border-[#00D9FF]/40 transition-colors"
-            />
-          </div>
-
-          {/* Category filter */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
-                  activeCategory === cat
-                    ? "bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30"
-                    : "glass border border-white/8 text-[#A1A1AA] hover:text-white"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Skills grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredSkills.map(([category, { color, items }], ci) => {
-            const filtered = items.filter((item) =>
-              item.name.toLowerCase().includes(query.toLowerCase())
-            );
-            if (filtered.length === 0) return null;
-
+        {/* Category tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {categories.map((cat) => {
+            const color = cat === "All" ? "#00D9FF" : skills[cat as keyof typeof skills]?.color ?? "#00D9FF";
+            const isActive = active === cat;
             return (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: ci * 0.1, duration: 0.5 }}
-                className="glass rounded-2xl p-6 border border-white/5 card-hover"
+              <motion.button
+                key={cat}
+                onClick={() => setActive(cat)}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+                style={
+                  isActive
+                    ? { background: color + "20", color, border: `1px solid ${color}50` }
+                    : { background: "rgba(255,255,255,0.04)", color: "#A1A1AA", border: "1px solid rgba(255,255,255,0.08)" }
+                }
               >
-                {/* Category header */}
-                <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className="w-2 h-8 rounded-full"
-                    style={{ background: color }}
-                  />
-                  <div>
-                    <h3 className="font-display font-bold text-white text-sm">
-                      {category}
-                    </h3>
-                    <p className="text-[#A1A1AA] text-xs">{filtered.length} skills</p>
-                  </div>
-                </div>
-
-                {/* Skill bars */}
-                <div className="space-y-4">
-                  {filtered.map((skill, si) => (
-                    <SkillBar
-                      key={skill.name}
-                      name={skill.name}
-                      level={skill.level}
-                      color={color}
-                      index={si}
-                    />
-                  ))}
-                </div>
-              </motion.div>
+                <span>{tabIcons[cat] ?? "•"}</span>
+                <span>{tabLabels[cat] ?? cat}</span>
+                {isActive && (
+                  <span
+                    className="ml-1 text-xs px-1.5 py-0.5 rounded-full font-mono"
+                    style={{ background: color + "30", color }}
+                  >
+                    {displayed.length}
+                  </span>
+                )}
+              </motion.button>
             );
           })}
         </div>
 
-        {/* Tech badge cloud */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-12 glass rounded-2xl p-6 border border-white/5"
-        >
-          <p className="text-center text-[#A1A1AA] text-sm mb-5 font-mono">
-            // Full technology radar
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {[
-              "Python","React","FastAPI","TypeScript","Spring Boot","Docker","PostgreSQL",
-              "pgvector","Ollama","Qwen","LLMs","RAG","NLP","Hugging Face","AWS",
-              "Django",".NET","Java","C#","MySQL","Linux","Git","CI/CD","Scrum","REST APIs",
-            ].map((tech, i) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.03 }}
-                whileHover={{ scale: 1.1, y: -2 }}
-                className="px-3 py-1.5 rounded-lg text-xs font-mono font-medium glass border border-white/8 text-[#A1A1AA] hover:text-white hover:border-[#00D9FF]/30 transition-all duration-200 cursor-default"
+        {/* Skill pills */}
+        <motion.div layout className="flex flex-wrap justify-center gap-3">
+          <AnimatePresence mode="popLayout">
+            {displayed.map((skill) => (
+              <motion.div
+                key={skill.name + skill.category}
+                layout
+                initial={{ opacity: 0, scale: 0.75 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.75 }}
+                transition={{ duration: 0.2 }}
+                whileHover={{ scale: 1.08, y: -4 }}
+                className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl cursor-default group"
+                style={{
+                  background: skill.color + "0D",
+                  border: `1px solid ${skill.color}25`,
+                }}
               >
-                {tech}
-              </motion.span>
+                <SkillIcon name={skill.name} color={skill.color} />
+                <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors">
+                  {skill.name}
+                </span>
+              </motion.div>
             ))}
-          </div>
+          </AnimatePresence>
         </motion.div>
+
+        {/* Divider + count */}
+        <motion.p
+          key={active}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center mt-10 text-xs font-mono"
+          style={{ color: activeColor + "80" }}
+        >
+          // {displayed.length} {active === "All" ? "total skills" : `${tabLabels[active] ?? active} skills`}
+        </motion.p>
       </div>
     </SectionWrapper>
   );
 }
+
+

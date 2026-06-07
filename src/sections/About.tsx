@@ -4,6 +4,7 @@ import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import AnimatedCounter from "../components/AnimatedCounter";
 import GitHubStats from "../components/GitHubStats";
 import { personal, stats, languages, softSkills } from "../data";
+import { useLang } from "../lib/LangContext";
 
 const interests = [
   { icon: Brain, label: "Artificial Intelligence", color: "#00D9FF" },
@@ -15,11 +16,12 @@ const interests = [
 ];
 
 export default function AboutSection() {
+  const { t } = useLang();
   return (
     <SectionWrapper id="about" className="bg-[#0A0A0A]/80 backdrop-blur-none">
       <div className="max-w-6xl mx-auto">
-        <SectionTitle badge="About Me" subtitle="Computer Science student with a passion for AI and full-stack development">
-          Who I Am
+        <SectionTitle badge="About Me" subtitle={t("about.subtitle")}>
+          {t("about.title")}
         </SectionTitle>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">

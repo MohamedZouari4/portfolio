@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Star, Tag } from "lucide-react";
 import { GitHubIcon } from "../components/SocialIcons";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
+import { useLang } from "../lib/LangContext";
 import ProjectModal from "../components/ProjectModal";
 import { projects } from "../data";
 
@@ -11,6 +12,7 @@ type Project = (typeof projects)[number];
 const categories = ["All", "AI", "Full-Stack", "Mobile & Games"];
 
 export default function ProjectsSection() {
+  const { t } = useLang();
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
 
@@ -24,9 +26,9 @@ export default function ProjectsSection() {
       <div className="max-w-6xl mx-auto">
         <SectionTitle
           badge="Projects"
-          subtitle="Engineering solutions that span AI, Full-Stack, and enterprise systems"
+          subtitle={t("projects.subtitle")}
         >
-          Featured Work
+          {t("projects.title")}
         </SectionTitle>
 
         {/* Filter */}

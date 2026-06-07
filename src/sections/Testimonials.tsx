@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
+import { useLang } from "../lib/LangContext";
 
 const testimonials = [
   {
@@ -89,6 +90,7 @@ const testimonials = [
 const INTERVAL = 5000;
 
 export default function TestimonialsSection() {
+  const { t: translate } = useLang();
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -119,9 +121,9 @@ export default function TestimonialsSection() {
       <div className="max-w-6xl mx-auto">
         <SectionTitle
           badge="Testimonials"
-          subtitle="What colleagues and supervisors say about working with me"
+          subtitle={translate("testimonials.subtitle")}
         >
-          Kind Words
+          {translate("testimonials.title")}
         </SectionTitle>
 
         {/* Carousel */}

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
+import { useLang } from "../lib/LangContext";
 
 const setup = [
   {
@@ -49,6 +50,7 @@ const setup = [
 ];
 
 export default function UsesSection() {
+  const { t } = useLang();
   return (
     <SectionWrapper id="uses" className="bg-[#0A0A0A]/80">
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#F59E0B]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -56,9 +58,9 @@ export default function UsesSection() {
       <div className="max-w-5xl mx-auto">
         <SectionTitle
           badge="Uses"
-          subtitle="Tools, apps and gear that power my daily workflow"
+          subtitle={t("uses.subtitle")}
         >
-          My Setup
+          {t("uses.title")}
         </SectionTitle>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

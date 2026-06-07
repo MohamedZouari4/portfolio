@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import { GraduationCap, MapPin, Calendar, CheckCircle, Clock } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { education } from "../data";
+import { useLang } from "../lib/LangContext";
 import lyceelogo from "../assets/logo lycee 15 novembre.jpg";
 import iitLogo from "../assets/IIT (2).png";
 
 export default function EducationSection() {
+  const { t } = useLang();
   return (
     <SectionWrapper id="education" className="bg-[#080808]/80">
       {/* Ambient glow */}
@@ -15,9 +17,9 @@ export default function EducationSection() {
       <div className="max-w-5xl mx-auto">
         <SectionTitle
           badge="Education"
-          subtitle="Academic background and certifications that shaped my technical foundation"
+          subtitle={t("education.subtitle")}
         >
-          Academic Journey
+          {t("education.title")}
         </SectionTitle>
 
         {/* Education timeline */}

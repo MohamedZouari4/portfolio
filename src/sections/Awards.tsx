@@ -4,6 +4,7 @@ import { ExternalLink, ExternalLink as ExtLink, X, BookOpen, Users } from "lucid
 import * as Dialog from "@radix-ui/react-dialog";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { awards, certifications, exploring, publications } from "../data";
+import { useLang } from "../lib/LangContext";
 
 type Cert = (typeof certifications)[number];
 
@@ -81,6 +82,7 @@ function CertModal({ cert, onClose }: { cert: Cert; onClose: () => void }) {
 }
 
 export default function AwardsSection() {
+  const { t } = useLang();
   const [selectedCert, setSelectedCert] = useState<Cert | null>(null);
 
   return (
@@ -88,8 +90,8 @@ export default function AwardsSection() {
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#7C3AED]/4 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto">
-        <SectionTitle badge="Recognition" subtitle="Awards, certifications, and achievements">
-          Awards & Honors
+        <SectionTitle badge="Recognition" subtitle={t("awards.subtitle")}>
+          {t("awards.title")}
         </SectionTitle>
 
         {/* Awards */}

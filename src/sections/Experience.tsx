@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, CalendarDays } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { experience } from "../data";
+import { useLang } from "../lib/LangContext";
 import advisingLogo from "../assets/favicon.png";
 import clinisysLogo from "../assets/clinisys.jpg";
 import iitLogo from "../assets/IIT (2).png";
@@ -54,6 +55,7 @@ function CompanyLogo({ company, color }: { company: string; color: string }) {
 }
 
 export default function ExperienceSection() {
+  const { t } = useLang();
   const [expanded, setExpanded] = useState<number | null>(1);
 
   return (
@@ -64,9 +66,9 @@ export default function ExperienceSection() {
       <div className="max-w-4xl mx-auto">
         <SectionTitle
           badge="Experience"
-          subtitle="Professional internships and engineering roles"
+          subtitle={t("experience.subtitle")}
         >
-          Work Experience
+          {t("experience.title")}
         </SectionTitle>
 
         {/* Timeline */}

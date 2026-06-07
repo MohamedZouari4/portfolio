@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
+import { useLang } from "../lib/LangContext";
 
 const milestones = [
   {
@@ -76,6 +77,7 @@ const milestones = [
 ];
 
 export default function JourneySection() {
+  const { t } = useLang();
   return (
     <SectionWrapper id="journey" className="bg-[#080808]/80">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#7C3AED]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -83,9 +85,9 @@ export default function JourneySection() {
       <div className="max-w-3xl mx-auto">
         <SectionTitle
           badge="Journey"
-          subtitle="The story behind the code — milestones that shaped who I am"
+          subtitle={t("journey.subtitle")}
         >
-          My Story
+          {t("journey.title")}
         </SectionTitle>
 
         <div className="relative">

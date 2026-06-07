@@ -3,6 +3,7 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import AnimatedCounter from "../components/AnimatedCounter";
+import { useLang } from "../lib/LangContext";
 import { ieeeRoles, ieeeStats, aiesec } from "../data";
 import ieeeLogo from "../assets/ieee-logo.png";
 import caravanLogo from "../assets/caravanlogo-BQfjU8R-.png";
@@ -31,6 +32,7 @@ const ieeePhotos: { src: string; caption: string; event: string }[] = [
 ];
 
 export default function IeeeSection() {
+  const { t } = useLang();
   const [tab, setTab] = useState("leadership");
   const [lightbox, setLightbox] = useState<number | null>(null);
 
@@ -52,9 +54,9 @@ export default function IeeeSection() {
       <div className="max-w-6xl mx-auto">
         <SectionTitle
           badge="IEEE Journey"
-          subtitle="Leadership, Innovation, Global Impact & Community Building"
+          subtitle={t("ieee.subtitle")}
         >
-          IEEE Leadership
+          {t("ieee.title")}
         </SectionTitle>
 
         {/* IEEE intro card */}

@@ -8,6 +8,7 @@ import { Mail, MapPin, Send, CheckCircle, AlertCircle, Phone, Copy, Check } from
 import { GitHubIcon, LinkedInIcon } from "../components/SocialIcons";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { personal } from "../data";
+import { useLang } from "../lib/LangContext";
 
 const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
@@ -23,6 +24,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function ContactSection() {
+  const { t } = useLang();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [copied, setCopied] = useState(false);
 
@@ -109,8 +111,8 @@ export default function ContactSection() {
       </div>
 
       <div className="max-w-5xl mx-auto">
-        <SectionTitle badge="Contact" subtitle="Let's collaborate and build something amazing together">
-          Get In Touch
+        <SectionTitle badge="Contact" subtitle={t("contact.subtitle")}>
+          {t("contact.title")}
         </SectionTitle>
 
         <div className="grid lg:grid-cols-5 gap-10">
