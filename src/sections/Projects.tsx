@@ -98,9 +98,17 @@ export default function ProjectsSection() {
                           <GitHubIcon size={14} />
                         </a>
                       )}
-                      <button className="w-8 h-8 rounded-lg glass border border-white/10 flex items-center justify-center text-[#A1A1AA] hover:text-white transition-colors">
-                        <ExternalLink size={14} />
-                      </button>
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 rounded-lg glass border border-white/10 flex items-center justify-center text-[#A1A1AA] hover:text-white transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
                     </div>
                   </div>
 

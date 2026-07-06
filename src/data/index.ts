@@ -219,6 +219,27 @@ export const projects = [
     github: "https://github.com/MohamedZouari4/Game-Dev-Project",
   },
   {
+    id: 8,
+    title: "IEEE EMBS IIT Student Branch Website",
+    description:
+      "Modern, responsive website for the IEEE Engineering in Medicine & Biology Society student chapter at IIT, built with React and Vite to showcase the organization and engage prospective members.",
+    tech: ["React", "Vite", "JavaScript", "CSS"],
+    features: [
+      "Responsive, mobile-first design",
+      "Smooth scroll animations and transitions",
+      "Interactive EKG animation and dot motifs",
+      "Team member cards and FAQ sections",
+      "WCAG-compliant accessibility",
+      "Centralized content configuration",
+    ],
+    category: "Full-Stack",
+    featured: false,
+    color: "#00D9FF",
+    gradient: "from-[#00D9FF]/20 to-[#7C3AED]/20",
+    github: "https://github.com/MohamedZouari4/IEEE-EMBS-IIT-SBC-Website",
+    demo: "https://mohamedzouari4.github.io/IEEE-EMBS-IIT-SBC-Website/",
+  },
+  {
     id: 7,
     title: "Python Mini Games",
     description:
@@ -484,6 +505,15 @@ export const ieeeStats = [
 ];
 
 export const awards = [
+  {
+    title: "Bachelor's Degree in Computer Science",
+    event: "International Institute of Technology (IIT)",
+    year: "2026",
+    emoji: "🎓",
+    color: "#00FFB2",
+    gradient: "from-[#00FFB2]/20 to-[#00D9FF]/10",
+    description: "Graduated with a Bachelor's in Computer Science, now continuing at IIT for the National Engineering Diploma.",
+  },
   {
     title: "Best Ambassador",
     event: "IEEEXtreme 18.0",
