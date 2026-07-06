@@ -47,8 +47,8 @@ export const experience = [
     id: 1,
     role: "AI Software Engineering Intern",
     company: "ADVISING LTD",
-    period: "Jan 2026 – Present",
-    type: "current",
+    period: "Jan 2026 – Jul 2026",
+    type: "past",
     description:
       "Leading AI development initiatives including RAG architectures, FastAPI backends, and React frontends for enterprise-grade content automation platforms.",
     responsibilities: [
@@ -241,14 +241,32 @@ export const projects = [
 
 export const education = [
   {
+    id: 3,
+    degree: "National Engineering Diploma",
+    institution: "International Institute of Technology (IIT)",
+    location: "Sfax, Tunisia",
+    period: "2026 – Present",
+    status: "current",
+    description:
+      "Engineering student specializing in AI Engineering, Full-Stack Development, and Software Engineering, continuing at IIT after completing the Bachelor's degree.",
+    highlights: [
+      "AI & Machine Learning",
+      "Full-Stack Web Development",
+      "Software Engineering",
+      "System Design",
+      "Work-Study Program",
+    ],
+    color: "#00FFB2",
+  },
+  {
     id: 1,
     degree: "Bachelor in Computer Science",
     institution: "International Institute of Technology (IIT)",
     location: "Sfax, Tunisia",
-    period: "2023 – Present",
-    status: "current",
+    period: "2023 – 2026",
+    status: "completed",
     description:
-      "3rd year Computer Science student in a Work-Study program, specializing in AI Engineering, Full-Stack Development, and Software Engineering.",
+      "Completed a Computer Science Bachelor's in a Work-Study program, specializing in AI Engineering, Full-Stack Development, and Software Engineering.",
     highlights: [
       "AI & Machine Learning",
       "Full-Stack Web Development",

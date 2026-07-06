@@ -56,7 +56,7 @@ const milestones = [
     year: "Jan 2026",
     icon: "🚀",
     title: "AI Engineer @ ADVISING LTD",
-    desc: "Building enterprise-grade AI content automation with RAG, FastAPI, and multi-model LLM integration.",
+    desc: "Built enterprise-grade AI content automation with RAG, FastAPI, and multi-model LLM integration.",
     color: "#00D9FF",
   },
   {
@@ -67,10 +67,17 @@ const milestones = [
     color: "#7C3AED",
   },
   {
+    year: "Jul 2026",
+    icon: "🎓",
+    title: "Completed Bachelor's Degree",
+    desc: "Graduated with a Bachelor in Computer Science from IIT and wrapped up the AI Software Engineering internship at ADVISING LTD.",
+    color: "#7C3AED",
+  },
+  {
     year: "Now",
     icon: "⚡",
-    title: "What's Next",
-    desc: "Seeking global AI Engineering opportunities, graduate programs, and building impactful open-source tools.",
+    title: "Starting the Engineering Degree",
+    desc: "Continuing at IIT for the National Engineering Diploma, while seeking global AI Engineering opportunities and building impactful open-source tools.",
     color: "#00FFB2",
     isNow: true,
   },

@@ -52,7 +52,7 @@ export default function EducationSection() {
                         alt="Lycée November 1955"
                         className="w-full h-full object-cover"
                       />
-                    ) : edu.id === 1 ? (
+                    ) : edu.id === 1 || edu.id === 3 ? (
                       <img
                         src={iitLogo}
                         alt="IIT"

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Download, ArrowRight, MapPin, Briefcase, Zap } from "lucide-react";
+import { Mail, Download, ArrowRight, MapPin, Briefcase, GraduationCap } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "../components/SocialIcons";
 import TypingEffect from "../components/TypingEffect";
 import { personal } from "../data";
@@ -184,11 +184,11 @@ export default function HeroSection() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C3AED] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C3AED]" />
               </span>
-              <Zap size={13} className="text-[#7C3AED]" />
+              <GraduationCap size={13} className="text-[#7C3AED]" />
               <span className="text-xs font-mono text-[#A1A1AA]">
-                Currently building:{" "}
-                <span className="text-[#7C3AED] font-semibold">AI Content Automation Platform</span>
-                <span className="text-[#A1A1AA]"> @ ADVISING LTD</span>
+                Now pursuing:{" "}
+                <span className="text-[#7C3AED] font-semibold">National Engineering Diploma</span>
+                <span className="text-[#A1A1AA]"> @ IIT</span>
               </span>
             </motion.div>
           </div>
