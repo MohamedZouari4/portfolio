@@ -467,6 +467,13 @@ export const ieeeRoles = {
       icon: "🎙️",
     },
     {
+      role: "Program Chair",
+      org: "AfroTech Intelligence Congress (ATIC 2.0)",
+      description: "Led the program planning and coordination for the second edition of AfroTech Intelligence Congress.",
+      color: "#00FFB2",
+      icon: "📋",
+    },
+    {
       role: "Chair",
       org: "CrackCode 1.0",
       description: "Organized and chaired a competitive programming event.",
@@ -505,6 +512,15 @@ export const ieeeStats = [
 ];
 
 export const awards = [
+  {
+    title: "Best Student of the Year",
+    event: "International Institute of Technology (IIT)",
+    year: "2026",
+    emoji: "🏆",
+    color: "#FFD700",
+    gradient: "from-yellow-500/20 to-[#00FFB2]/10",
+    description: "Recognized by IIT as Best Student of the Year 2026 for outstanding academic performance, leadership, and contribution to university life.",
+  },
   {
     title: "Bachelor's Degree in Computer Science",
     event: "International Institute of Technology (IIT)",
