@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Download } from "lucide-react";
 import cvFile from "../assets/Mohamed_ZOUARI_CV_.pdf";
@@ -7,6 +7,8 @@ import { cn } from "../lib/utils";
 import { useLang, Lang } from "../lib/LangContext";
 
 const navIds = ["home","about","journey","education","experience","projects","skills","ieee","awards","testimonials","uses","contact"];
+const primaryNavIds = ["home", "about", "journey", "projects", "contact"];
+const moreNavIds = navIds.filter((id) => !primaryNavIds.includes(id));
 const langOptions: { code: Lang; flag: string }[] = [
   { code: "en", flag: "🇬🇧" },
   { code: "fr", flag: "🇫🇷" },
@@ -17,11 +19,16 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
   const progress = useScrollProgress();
   const active = useActiveSection(navIds);
   const { lang, setLang, t } = useLang();
 
   const navLinks = navIds.map((id) => ({ id, label: t(`nav.${id}`) }));
+  const primaryLinks = primaryNavIds.map((id) => ({ id, label: t(`nav.${id}`) }));
+  const moreLinks = moreNavIds.map((id) => ({ id, label: t(`nav.${id}`) }));
+  const moreActive = moreNavIds.includes(active ?? "");
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
@@ -29,9 +36,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    return () => document.removeEventListener("mousedown", handlePointerDown);
+  }, []);
+
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMobileOpen(false);
+    setMoreOpen(false);
   };
 
   return (
@@ -71,7 +90,7 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-0">
-            {navLinks.map((link) => (
+            {primaryLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
@@ -92,6 +111,54 @@ export default function Navbar() {
                 {link.label}
               </button>
             ))}
+
+            <div ref={moreMenuRef} className="relative">
+              <button
+                onClick={() => setMoreOpen((open) => !open)}
+                className={cn(
+                  "relative px-4 py-1.5 text-sm font-medium transition-colors duration-200",
+                  moreActive
+                    ? "text-white"
+                    : "text-[#666] hover:text-[#A1A1AA]"
+                )}
+              >
+                {moreActive && (
+                  <motion.span
+                    layoutId="navUnderline"
+                    className="absolute bottom-0 left-4 right-4 h-px bg-[#00D9FF]"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+                More
+              </button>
+
+              <AnimatePresence>
+                {moreOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full mt-2 min-w-44 rounded-xl border border-white/10 bg-[#111]/95 p-2 shadow-2xl backdrop-blur-xl z-50"
+                  >
+                    {moreLinks.map((link) => (
+                      <button
+                        key={link.id}
+                        onClick={() => scrollTo(link.id)}
+                        className={cn(
+                          "block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200",
+                          active === link.id
+                            ? "bg-white/6 text-white"
+                            : "text-[#A1A1AA] hover:bg-white/5 hover:text-white"
+                        )}
+                      >
+                        {link.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Resume CTA */}
