@@ -23,6 +23,8 @@ import TopProgressBar from "./components/TopProgressBar";
 import HeroBackground from "./components/HeroBackground";
 import NotFound from "./sections/NotFound";
 import StatsBanner from "./components/StatsBanner";
+import Locali from "./sections/Locali";
+import Revision from "./sections/Revision";
 
 function HashScroller() {
   const location = useLocation();
@@ -88,6 +90,8 @@ function App() {
 
           <Routes>
             <Route path="/" element={<PortfolioPage />} />
+            <Route path="/locali" element={<Locali />} />
+            <Route path="/revision" element={<Revision />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 

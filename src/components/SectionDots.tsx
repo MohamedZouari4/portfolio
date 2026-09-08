@@ -7,6 +7,7 @@ const sections = [
   { id: "education", label: "Education" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
+  { id: "revision", label: "Revision.TN" },
   { id: "skills", label: "Skills" },
   { id: "ieee", label: "IEEE" },
   { id: "awards", label: "Awards" },

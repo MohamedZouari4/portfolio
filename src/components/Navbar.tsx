@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Download } from "lucide-react";
+import { Menu, X, Download, ArrowUpRight, Sparkles } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import cvFile from "../assets/Mohamed_ZOUARI_CV_.pdf";
 import { useScrollProgress, useActiveSection } from "../hooks/useCounter";
 import { cn } from "../lib/utils";
@@ -21,6 +22,8 @@ export default function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
   const progress = useScrollProgress();
   const active = useActiveSection(navIds);
   const { lang, setLang, t } = useLang();
@@ -48,7 +51,11 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
     setMobileOpen(false);
     setMoreOpen(false);
   };
@@ -159,6 +166,33 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+
+            <Link
+              to="/locali"
+              className={cn(
+                "group ml-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                location.pathname === "/locali"
+                  ? "border-[#00FFB2]/50 bg-[#00FFB2]/10 text-[#00FFB2]"
+                  : "border-[#00FFB2]/25 bg-[#00FFB2]/5 text-[#00FFB2] hover:border-[#00FFB2]/50 hover:bg-[#00FFB2]/10"
+              )}
+            >
+              <Sparkles size={12} />
+              Locali
+              <ArrowUpRight size={12} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              to="/revision"
+              className={cn(
+                "group ml-2 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                location.pathname === "/revision"
+                  ? "border-[#C084FC]/60 bg-[#8B5CF6]/20 text-[#D8B4FE]"
+                  : "border-[#A78BFA]/30 bg-[#8B5CF6]/10 text-[#C4B5FD] hover:border-[#C084FC]/60 hover:bg-[#8B5CF6]/20"
+              )}
+            >
+              <Sparkles size={12} />
+              Revision.TN
+              <span className="rounded bg-[#C084FC]/20 px-1 py-0.5 text-[8px] tracking-wider text-[#E9D5FF]">NEW</span>
+            </Link>
           </div>
 
           {/* Resume CTA */}
@@ -231,6 +265,22 @@ export default function Navbar() {
             className="fixed top-16 left-0 right-0 z-[99] bg-[#0D0D0D]/95 backdrop-blur-xl border-b border-white/[0.06]"
           >
             <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+              <Link
+                to="/locali"
+                onClick={() => setMobileOpen(false)}
+                className="mb-2 flex items-center justify-between rounded-xl border border-[#00FFB2]/25 bg-[#00FFB2]/[0.06] px-4 py-3 text-sm font-semibold text-[#00FFB2]"
+              >
+                <span className="flex items-center gap-2"><Sparkles size={14} /> Explore Locali</span>
+                <ArrowUpRight size={15} />
+              </Link>
+              <Link
+                to="/revision"
+                onClick={() => setMobileOpen(false)}
+                className="mb-2 flex items-center justify-between rounded-xl border border-[#A78BFA]/30 bg-[#8B5CF6]/[0.10] px-4 py-3 text-sm font-semibold text-[#D8B4FE]"
+              >
+                <span className="flex items-center gap-2"><Sparkles size={14} /> Explore Revision.TN</span>
+                <span className="rounded bg-[#C084FC]/20 px-1.5 py-0.5 text-[9px] tracking-wider text-[#E9D5FF]">NEW</span>
+              </Link>
               {navLinks.map((link, i) => (
                 <motion.button
                   key={link.id}
