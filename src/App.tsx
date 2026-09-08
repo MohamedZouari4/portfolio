@@ -67,6 +67,66 @@ function PortfolioPage() {
   );
 }
 
+function AppContent() {
+  const location = useLocation();
+  const routePath = location.pathname.replace(/\/+$/, "") || "/";
+  const basePath = import.meta.env.BASE_URL.replace(/\/+$/, "");
+  const isPortfolioPage = routePath === "/" || routePath === basePath;
+
+  useEffect(() => {
+    const page = routePath.endsWith("/locali")
+      ? {
+          title: "Locali | Your Personal AI Workspace",
+          description: "Locali is a private, local-first AI workspace for your files, projects, and knowledge.",
+        }
+      : routePath.endsWith("/revision")
+        ? {
+            title: "Revision.TN | A New Way to Learn",
+            description: "Revision.TN is a Tunisian education project currently being built for students and the learning community.",
+          }
+        : {
+            title: "Mohamed Zouari | AI Engineer & Full-Stack Developer",
+            description: "Computer Science student passionate about AI, Full-Stack Development, and building intelligent systems.",
+          };
+
+    document.title = page.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", page.description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", page.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", page.description);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", page.title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", page.description);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", window.location.href.split("#")[0]);
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", window.location.href.split("#")[0]);
+  }, [routePath]);
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white font-body">
+      <TopProgressBar />
+      <CursorSpotlight />
+      <div className="scan-line" />
+
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <HeroBackground />
+      </div>
+
+      <HashScroller />
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<PortfolioPage />} />
+        <Route path="/locali" element={<Locali />} />
+        <Route path="/revision" element={<Revision />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+      <Footer />
+      <BackToTop />
+      {isPortfolioPage && <HireMe />}
+      {isPortfolioPage && <SectionDots />}
+    </div>
+  );
+}
+
 function App() {
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -75,31 +135,7 @@ function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <LangProvider>
-        <div className="min-h-screen bg-[#0A0A0A] text-white font-body">
-          <TopProgressBar />
-          <CursorSpotlight />
-          <div className="scan-line" />
-
-          {/* Global particle background — fixed behind entire page */}
-          <div className="fixed inset-0 z-0 pointer-events-none">
-            <HeroBackground />
-          </div>
-
-          <HashScroller />
-          <Navbar />
-
-          <Routes>
-            <Route path="/" element={<PortfolioPage />} />
-            <Route path="/locali" element={<Locali />} />
-            <Route path="/revision" element={<Revision />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-
-          <Footer />
-          <BackToTop />
-          <HireMe />
-          <SectionDots />
-        </div>
+        <AppContent />
       </LangProvider>
     </BrowserRouter>
   );

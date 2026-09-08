@@ -24,6 +24,9 @@ export default function Navbar() {
   const moreMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const routePath = location.pathname.replace(/\/+$/, "") || "/";
+  const basePath = import.meta.env.BASE_URL.replace(/\/+$/, "");
+  const isPortfolioPage = routePath === "/" || routePath === basePath;
   const progress = useScrollProgress();
   const active = useActiveSection(navIds);
   const { lang, setLang, t } = useLang();
@@ -51,7 +54,7 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (id: string) => {
-    if (location.pathname !== "/") {
+    if (!isPortfolioPage) {
       navigate(`/#${id}`);
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -171,7 +174,7 @@ export default function Navbar() {
               to="/locali"
               className={cn(
                 "group ml-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
-                location.pathname === "/locali"
+                routePath.endsWith("/locali")
                   ? "border-[#00FFB2]/50 bg-[#00FFB2]/10 text-[#00FFB2]"
                   : "border-[#00FFB2]/25 bg-[#00FFB2]/5 text-[#00FFB2] hover:border-[#00FFB2]/50 hover:bg-[#00FFB2]/10"
               )}
@@ -184,7 +187,7 @@ export default function Navbar() {
               to="/revision"
               className={cn(
                 "group ml-2 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
-                location.pathname === "/revision"
+                routePath.endsWith("/revision")
                   ? "border-[#C084FC]/60 bg-[#8B5CF6]/20 text-[#D8B4FE]"
                   : "border-[#A78BFA]/30 bg-[#8B5CF6]/10 text-[#C4B5FD] hover:border-[#C084FC]/60 hover:bg-[#8B5CF6]/20"
               )}
