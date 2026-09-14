@@ -45,8 +45,27 @@ export const stats = [
 export const experience = [
   {
     id: 1,
+    role: "Full Stack Engineer Intern",
+    company: "IndieKidz GmbH",
+    project: "Occibo Studio Project",
+    location: "Berlin, Germany · Remote",
+    period: "September 2026 – Present",
+    type: "current",
+    description:
+      "Contributing to the Occibo Studio project as a Full Stack Engineer Intern, gaining hands-on experience in real-world full-stack development while working with an international team based in Berlin.",
+    responsibilities: [
+      "Contributing to the Occibo Studio project",
+      "Working with an international team based in Berlin",
+    ],
+    tech: [],
+    color: "#00FFB2",
+  },
+  {
+    id: 2,
     role: "AI Software Engineering Intern",
     company: "ADVISING LTD",
+    project: "",
+    location: "",
     period: "Jan 2026 – Jul 2026",
     type: "past",
     description:
@@ -66,9 +85,11 @@ export const experience = [
     color: "#00D9FF",
   },
   {
-    id: 2,
+    id: 3,
     role: "Software Development Intern",
     company: "CliniSys ERP",
+    project: "",
+    location: "",
     period: "July 2025",
     type: "past",
     description:
@@ -84,9 +105,11 @@ export const experience = [
     color: "#7C3AED",
   },
   {
-    id: 3,
+    id: 4,
     role: "Web Development Intern",
     company: "International Institute of Technology",
+    project: "",
+    location: "",
     period: "Jul 2024 – Sep 2024",
     type: "past",
     description:

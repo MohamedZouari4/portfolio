@@ -1,22 +1,29 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, CalendarDays } from "lucide-react";
+import { ChevronDown, CalendarDays, MapPin } from "lucide-react";
 import SectionWrapper, { SectionTitle } from "../components/SectionWrapper";
 import { experience } from "../data";
 import { useLang } from "../lib/LangContext";
 import advisingLogo from "../assets/favicon.png";
 import clinisysLogo from "../assets/clinisys.jpg";
 import iitLogo from "../assets/IIT (2).png";
+import indiekidzLogo from "../assets/indiekidz_gmbh_logo.jpg";
+import occiboLogo from "../assets/occibo_studio_logo.jpg";
 
 // Local logos take priority; Clearbit as fallback for others
 const companyLogoMap: Record<string, string> = {
   "ADVISING LTD": advisingLogo,
   "CliniSys ERP": clinisysLogo,
   "International Institute of Technology": iitLogo,
+  "IndieKidz GmbH": indiekidzLogo,
+};
+const projectLogoMap: Record<string, string> = {
+  "Occibo Studio Project": occiboLogo,
 };
 
-function CompanyLogo({ company, color }: { company: string; color: string }) {
+function CompanyLogo({ company, project, color }: { company: string; project?: string; color: string }) {
   const src = companyLogoMap[company];
+  const projectSrc = project ? projectLogoMap[project] : undefined;
   const isLocal = src && !src.startsWith("http");
   const initials = company.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
 
@@ -32,7 +39,7 @@ function CompanyLogo({ company, color }: { company: string; color: string }) {
   }
 
   return (
-    <div className="relative flex-shrink-0">
+    <div className="relative flex items-center gap-1 flex-shrink-0">
       <img
         src={src}
         alt={company}
@@ -44,6 +51,13 @@ function CompanyLogo({ company, color }: { company: string; color: string }) {
           if (next) next.style.removeProperty("display");
         }}
       />
+      {projectSrc && (
+        <img
+          src={projectSrc}
+          alt={project}
+          className="w-8 h-8 rounded-lg object-contain p-0.5 bg-white"
+        />
+      )}
       <div
         className="w-8 h-8 rounded-lg items-center justify-center flex-shrink-0 text-xs font-bold hidden"
         style={{ background: color + "20", color }}
@@ -118,7 +132,7 @@ export default function ExperienceSection() {
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1 flex-wrap">
                           <div className="relative flex-shrink-0">
-                            <CompanyLogo company={exp.company} color={exp.color} />
+                            <CompanyLogo company={exp.company} project={exp.project} color={exp.color} />
                           </div>
                           <h3 className="font-display font-bold text-white text-lg">
                             {exp.role}
@@ -130,12 +144,19 @@ export default function ExperienceSection() {
                           )}
                         </div>
 
-                        <div className="flex items-center gap-4 ml-11">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 ml-11 text-sm">
                           <span className="font-semibold text-[#A1A1AA]">{exp.company}</span>
+                          {exp.project && <span className="text-[#A1A1AA]">{exp.project}</span>}
                           <div className="flex items-center gap-1.5 text-[#A1A1AA] text-sm">
                             <CalendarDays size={12} />
                             {exp.period}
                           </div>
+                          {exp.location && (
+                            <div className="flex items-center gap-1.5 text-[#A1A1AA]">
+                              <MapPin size={12} />
+                              {exp.location}
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -171,7 +192,7 @@ export default function ExperienceSection() {
                         >
                           <div className="pt-4 grid sm:grid-cols-2 gap-6">
                             {/* Responsibilities */}
-                            <div>
+                            {exp.responsibilities.length > 0 && <div>
                               <h4 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
                                 <span
                                   className="w-1.5 h-4 rounded-full"
@@ -196,10 +217,10 @@ export default function ExperienceSection() {
                                   </motion.li>
                                 ))}
                               </ul>
-                            </div>
+                            </div>}
 
                             {/* Tech */}
-                            <div>
+                            {exp.tech.length > 0 && <div>
                               <h4 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
                                 <span
                                   className="w-1.5 h-4 rounded-full"
@@ -222,7 +243,7 @@ export default function ExperienceSection() {
                                   </span>
                                 ))}
                               </div>
-                            </div>
+                            </div>}
                           </div>
                         </div>
                       </motion.div>
