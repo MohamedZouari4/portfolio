@@ -76,8 +76,8 @@ function AppContent() {
   useEffect(() => {
     const page = routePath.endsWith("/locali")
       ? {
-          title: "Locali | Your Personal AI Workspace",
-          description: "Locali is a private, local-first AI workspace for your files, projects, and knowledge.",
+          title: "Locali | A Local AI Platform",
+          description: "LOCALI is a local-first AI platform: one shared core, eight modules, starting with LOCALI Professional for confidential documents.",
         }
       : routePath.endsWith("/revision")
         ? {
